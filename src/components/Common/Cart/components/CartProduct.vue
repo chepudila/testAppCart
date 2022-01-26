@@ -1,20 +1,20 @@
 <template>
-    <div class="product" :class="{ 'product_price-rised': isPriceRised }">
-        <div class="product__left-column">
+    <div class="cart-product">
+        <div class="cart-product__left-column">
             <h5 v-text="productTitle" />
-            <div class="product__price">
+            <div class="cart-product__price">
                 <span v-text="priceRublesText" />
             </div>
         </div>
-        <div class="product__right-column">
-            <button v-if="!isProductInCart" @click="$emit('addToCart', productData)">В корзину</button>
+        <div class="cart-product__right-column">
+            <button v-if="!isProductInCart" @click="$emit('addToCart', productData)">Удалить</button>
         </div>
     </div>
 </template>
 
 <script>
 export default {
-    name: "Product",
+    name: "CartProduct",
     props: {
         productData: {
             type: Object,
@@ -28,10 +28,6 @@ export default {
             type: Number,
             default: 0,
         },
-        productsInCart: {
-            type: Object,
-            default: () => ({}),
-        },
     },
     computed: {
         productTitle() {
@@ -41,42 +37,24 @@ export default {
             return (this.productData.price * this.dollarExhangeRate).toFixed(2);
         },
         priceRublesText() {
-            return `Цена: ${this.priceRubles} руб.`;
-        },
-        isProductInCart() {
-            return Boolean(this.productsInCart?.[this.productData.id]);
-        },
-    },
-    data() {
-        return {
-            isPriceRised: false,
-        };
-    },
-    watch: {
-        priceRubles(newValue, oldValue) {
-            this.isPriceRised = Number(newValue) > Number(oldValue);
+            return `Цена: ${this.priceRubles} руб. / шт.`;
         },
     },
 };
 </script>
 
 <style lang="scss" scoped>
-.product {
+.cart-product {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    width: 100%;
     gap: 1em;
     margin: 0.5em;
     padding: 0.2em;
-    border-radius: 0.3em;
-    background: #383838;
-    box-shadow: 0.2em 0.2em 0.3em #303030, -0.2em -0.2em 0.3em #404040;
+    border-bottom: 1px solid #ffffff;
 
-    &.product_price-rised {
-        background-color: indianred;
-    }
-
-    .product__left-column {
+    .cart-product__left-column {
         h5 {
             margin: 0;
             font-size: 1em;
@@ -84,8 +62,8 @@ export default {
         }
     }
 
-    .product__right-column {
-        align-self: flex-end;
+    .cart-product__right-column {
+        align-self: flex-start;
         min-width: fit-content;
 
         button {

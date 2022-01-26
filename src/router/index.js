@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Dashboard from "../components/RouterViews/Dashboard.vue";
-import Cart from "../components/RouterViews/Cart.vue";
+import DashboardView from "../components/RouterViews/DashboardView.vue";
+import CartView from "../components/RouterViews/CartView.vue";
 import { store } from "../store";
 import { getMainMenu } from "../api"
 
@@ -8,12 +8,12 @@ const routes = [
     {
         path: "/",
         name: "Dashboard",
-        component: Dashboard,
+        component: DashboardView,
     },
     {
         path: "/cart",
         name: "Cart",
-        component: Cart,
+        component: CartView,
     },
 ];
 

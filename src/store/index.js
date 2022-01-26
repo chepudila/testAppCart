@@ -4,7 +4,7 @@ const store = createStore({
     state() {
         return {
             MAIN_MENU: [],
-            CART: [],
+            CART: null,
             PRODUCTS_DATA: null,
             PRODUCTS_GROUPS: null,
             DOLLAR_EXCHANGE_RATE: 0,

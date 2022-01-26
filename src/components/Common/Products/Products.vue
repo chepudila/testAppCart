@@ -78,5 +78,11 @@ $gap: 1em;
             text-align: center;
         }
     }
+
+    @media screen and (max-width: 900px) {
+        .products__group {
+            width: 100%;
+        }
+    }
 }
 </style>

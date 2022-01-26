@@ -1,10 +1,8 @@
 <template>
     <div class="app">
-        <div class="app__wrapper">
-            <main-menu />
-            <div class="app__wrapper-body">
-                <router-view />
-            </div>
+        <main-menu />
+        <div class="app__wrapper-body">
+            <router-view />
         </div>
     </div>
 </template>
@@ -28,26 +26,18 @@ $bg-color: #383838;
     height: 100vh;
     background-color: $bg-color;
     display: flex;
-    align-items: center;
-    justify-content: center;
 
-    .app__wrapper {
-        border-radius: 1em;
-        background: $bg-color;
-        box-shadow: 0.3em 0.3em 0.8em #272727, -0.3em -0.3em 0.8em #494949;
+    .main-menu {
         padding: 1em;
-        display: flex;
+    }
 
-        .main-menu {
-            margin-right: 1em;
-        }
-
-        .app__wrapper-body {
-            padding: 1em;
-            border-radius: 0.3em;
-            background: $bg-color;
-            box-shadow: inset 0.7em 0.7em 1.2em #303030, inset -0.7em -0.7em 1.2em #404040;
-        }
+    .app__wrapper-body {
+        width: 100%;
+        margin: 1em 1em 1em 0;
+        padding: 1em;
+        border-radius: 0.3em;
+        background: $bg-color;
+        box-shadow: inset 0.3em 0.3em 0.6em #303030, inset -0.3em -0.3em 0.6em #404040;
     }
 }
 </style>

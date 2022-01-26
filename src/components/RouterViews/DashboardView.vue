@@ -1,5 +1,5 @@
 <template>
-    <div class="dashboard">
+    <div class="dashboard-view">
         <Products
             :productsData="GET_PRODUCTS_DATA"
             :groupsData="GET_PRODUCTS_GROUPS"
@@ -15,7 +15,7 @@ import { mapGetters, mapActions } from "vuex";
 import Products from "../Common/Products/Products.vue";
 
 export default {
-    name: "Dashboard",
+    name: "DashboardView",
     components: {
         Products,
     },
