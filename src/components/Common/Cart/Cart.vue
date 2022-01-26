@@ -1,21 +1,23 @@
 <template>
-    <ul class="cart">
-        <li v-for="product in productsInCart" :key="product.id">
-            <cart-product
-                :productData="product"
-                :productVerbose="groupsData[product.group].products[product.id].verbose"
-                :dollarExhangeRate="dollarExhangeRate"
-                @deleteFromCart="$emit('deleteFromCart', $event)"
-            />
-        </li>
-    </ul>
-    <div v-if="total" class="cart__total">
-        <span v-text="totalText" />
+    <div class="cart">
+        <ul class="cart__products">
+            <li v-for="product in productsInCart" :key="product.id">
+                <cart-product
+                    :productData="product"
+                    :productVerbose="groupsData[product.group].products[product.id].verbose"
+                    :dollarExhangeRate="dollarExhangeRate"
+                    @deleteFromCart="$emit('deleteFromCart', $event)"
+                    @changeCountInCart="changeCountInCart($event, product)"
+                />
+            </li>
+        </ul>
+        <div v-if="total" class="cart__total">
+            <span v-text="totalText" />
+        </div>
     </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
 import CartProduct from "./components/CartProduct.vue";
 
 export default {
@@ -37,14 +39,22 @@ export default {
             default: 0,
         },
     },
+    data() {
+        return {
+            productsCount: {},
+        };
+    },
     computed: {
-        ...mapGetters(["GET_PRODUCTS_DATA", "GET_PRODUCTS_GROUPS", "GET_DOLLAR_EXCHANGE_RATE", "GET_CART"]),
         total() {
-            if (this.GET_CART) {
+            if (this.productsInCart && Object.values(this.productsInCart).length) {
                 return (
-                    Object.values(this.GET_CART).reduce(function (accumulator, currentValue) {
-                        return accumulator + currentValue.price;
-                    }, 0) * this.GET_DOLLAR_EXCHANGE_RATE
+                    Object.values(this.productsInCart).reduce((accumulator, currentValue) => {
+                        if (this.productsCount[currentValue.id]) {
+                            return currentValue.price * this.productsCount[currentValue.id] + accumulator;
+                        } else {
+                            return accumulator + currentValue.price;
+                        }
+                    }, 0) * this.dollarExhangeRate
                 ).toFixed(2);
             } else {
                 return "";
@@ -55,19 +65,23 @@ export default {
         },
     },
     methods: {
-        ...mapActions(["DELETE_PRODUCT_FROM_CART"]),
+        changeCountInCart(count, product) {
+            this.productsCount[product.id] = count;
+        }
     },
 };
 </script>
 
 <style lang="scss" scoped>
 .cart {
-    margin: 0;
-    padding: 0;
+    .cart__products {
+        margin: 0;
+        padding: 0;
 
-    li {
-        display: flex;
-        margin-bottom: 0.5em;
+        li {
+            display: flex;
+            margin-bottom: 0.5em;
+        }
     }
 }
 </style>
